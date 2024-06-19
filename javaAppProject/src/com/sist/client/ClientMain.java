@@ -1,8 +1,11 @@
 package com.sist.client;
 
+import com.sist.dao.GoodsDAO;
 import com.sist.dao.MemberDAO;
+import com.sist.user.ControlPanel;
 import com.sist.user.LoginPanel;
 
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,16 +14,20 @@ import javax.swing.*;
 
 public class ClientMain extends JFrame implements ActionListener{
 	LoginPanel login = new LoginPanel();
+	CardLayout card = new CardLayout();
+	ControlPanel cp = new ControlPanel();
 	public ClientMain() {
-		setLayout(null);
+		setLayout(card);
 		setSize(1280, 720);
 		setVisible(true);
-		login.setBounds(0, 0, 1280, 720);
-		add(login);
+		add("LOGIN", login);
+		add("CONTROL", cp);
 		
 		login.btnClose.addActionListener(this);
 		login.btnLogin.addActionListener(this);
 		login.btnSignUp.addActionListener(this);
+		cp.dp.b1.addActionListener(this);
+		cp.dp.b2.addActionListener(this);
 	}
 	public static void main(String[] args) {
 		new ClientMain();
@@ -84,12 +91,30 @@ public class ClientMain extends JFrame implements ActionListener{
 					// result에 들어간 admin 값이 Y인 경우	=> 권한 있음
 					else if(result.toUpperCase().equals("Y")) {
 						System.out.println("관리자권한 O");
+						card.show(getContentPane(), "CONTROL");
 					}
 				}
 			}
 		}
 		else if(e.getSource() == login.btnSignUp) {
 			
+		}
+		else if(e.getSource() == cp.dp.b1) {
+			int stack = (int)(cp.dp.box.getSelectedItem());
+			String empno_temp = cp.dp.boxEmp.getSelectedItem().toString();
+			int empno = Integer.parseInt((empno_temp.substring(0, empno_temp.indexOf("."))));
+			String goods_id = cp.dp.laId.getText();
+			MemberDAO mDao = MemberDAO.newInstance();
+			GoodsDAO gDao = GoodsDAO.newInstance();
+			System.out.println(login.tfId.getText());
+			System.out.println(Integer.parseInt(goods_id));
+			mDao.updatePerformance(empno, stack);
+			gDao.ordersInsert(login.tfId.getText(), Integer.parseInt(goods_id));
+			JOptionPane.showMessageDialog(this, "구매 완료");
+			cp.card.show(cp, "HOME");
+		}
+		else if(e.getSource() == cp.dp.b2) {
+			cp.card.show(cp, "HOME");
 		}
 	}
 

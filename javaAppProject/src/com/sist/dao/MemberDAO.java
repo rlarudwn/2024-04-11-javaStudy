@@ -1,6 +1,9 @@
 package com.sist.dao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MemberDAO {
 	private Connection conn;
@@ -72,5 +75,44 @@ public class MemberDAO {
 			disConnection();
 		}
 		return result;
+	}
+	
+	public String[] getEmp() {
+		ArrayList<String> list1 = new ArrayList<String>();
+		
+		try {
+			getConnection();
+			String sql = "SELECT ename, empno FROM emp";
+			ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				list1.add(rs.getInt(2) + ". " + rs.getString(1));
+			}
+			rs.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			disConnection();
+		}
+		String[] list2 = list1.toArray(new String[list1.size()]);
+		
+		return list2;
+	}
+	
+	public void updatePerformance(int empno, int stack) {
+		try {
+			getConnection();
+			String sql = "UPDATE emp SET PERFORMANCE = PERFORMANCE + ? WHERE empno = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, stack);
+			ps.setInt(2, empno);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			disConnection();
+		}
 	}
 }
