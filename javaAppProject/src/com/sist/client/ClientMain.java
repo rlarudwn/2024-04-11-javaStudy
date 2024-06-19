@@ -80,6 +80,7 @@ public class ClientMain extends JFrame implements ActionListener{
 				// 일반 회원 선택 후 로그인 한 경우 패널 이동
 				if(login.rbNemp.isSelected()) {	
 					// card.show(getComponents(), "SHOP");
+					card.show(getContentPane(), "CONTROL");
 				}
 				// rbEmp =  사원 라디오 버튼
 				// 사원 선택 후 로그인 한 경우 패널 이동
@@ -92,6 +93,7 @@ public class ClientMain extends JFrame implements ActionListener{
 					else if(result.toUpperCase().equals("Y")) {
 						System.out.println("관리자권한 O");
 						card.show(getContentPane(), "CONTROL");
+						cp.card.show(cp, "LIST");
 					}
 				}
 			}
@@ -106,7 +108,6 @@ public class ClientMain extends JFrame implements ActionListener{
 			String goods_id = cp.dp.laId.getText();
 			MemberDAO mDao = MemberDAO.newInstance();
 			GoodsDAO gDao = GoodsDAO.newInstance();
-			System.out.println(login.tfId.getText());
 			System.out.println(Integer.parseInt(goods_id));
 			mDao.updatePerformance(empno, stack);
 			gDao.ordersInsert(login.tfId.getText(), Integer.parseInt(goods_id));
