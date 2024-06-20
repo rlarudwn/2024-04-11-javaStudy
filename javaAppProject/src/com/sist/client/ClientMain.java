@@ -80,6 +80,7 @@ public class ClientMain extends JFrame implements ActionListener{
 				// 일반 회원 선택 후 로그인 한 경우 패널 이동
 				if(login.rbNemp.isSelected()) {	
 					// card.show(getComponents(), "SHOP");
+					cp.bip.setCb(login.tfId.getText());
 					card.show(getContentPane(), "CONTROL");
 				}
 				// rbEmp =  사원 라디오 버튼

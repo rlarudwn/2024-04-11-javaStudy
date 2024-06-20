@@ -187,4 +187,23 @@ public class GoodsDAO {
 			disConnection();
 		}
 	}
+	public ArrayList<String> buyGoodsName(String id){
+		ArrayList<String> list = new ArrayList<String>();
+		try {
+			getConnection();
+			String sql = "SELECT goods_name from goods_all where no in (SELECT goods_id from orders where custid = ?)";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString(1));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			disConnection();
+		}
+		return list;
+	}
 }
