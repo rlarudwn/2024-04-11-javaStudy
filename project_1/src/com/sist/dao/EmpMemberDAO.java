@@ -361,10 +361,11 @@ public class EmpMemberDAO {
 	    	 boolean bCheck = false;
 	    	 try {
 				getConnection();
-				String sql = "SELECT admin FROM emp WHERE (SELECT empno FROM member WHERE id = ?)";
+				String sql = "SELECT admin FROM emp WHERE empno = (SELECT empno FROM member WHERE id = ?)";
 				ps = conn.prepareStatement(sql);
 				ps.setString(1, id);
 				ResultSet rs = ps.executeQuery();
+				rs.next();
 				if(rs.getString(1).equals("n"))
 					bCheck = false;
 				else
@@ -375,6 +376,7 @@ public class EmpMemberDAO {
 	    	 finally {
 				disConnection();
 			}
+	    	 System.out.println(bCheck);
 	    	 return bCheck;
 	     }
 }

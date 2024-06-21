@@ -752,8 +752,9 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 				String no=mp.cp.ep.model.getValueAt(row, 0).toString();
 				System.out.println(no);
 				mp.cp.edp.print(no);
-				if(!dao.isAdmin(login.tfId.getText()))
+				if(!dao.isAdmin(login.tfId.getText())) {
 					mp.cp.edp.update.setVisible(false);
+				}
 				mp.cp.card.show(mp.cp, "EDETAIL");
 			}
 		}
