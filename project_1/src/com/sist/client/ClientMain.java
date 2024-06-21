@@ -735,6 +735,11 @@ public class ClientMain extends JFrame implements ActionListener, MouseListener,
 				mp.cp.bdp.sub.setText(vo.getTitle());
 				mp.cp.bdp.ta.setText(vo.getContent());
 				mp.cp.bdp.recom.setText(vo.getGvo().getGoods_name());
+				String id = dao.isMine(Integer.parseInt(no));
+				if(id.equals(login.tfId.getText()))
+					mp.cp.bdp.b1.setVisible(true);
+				else
+					mp.cp.bdp.b1.setVisible(false);
 				// 화면 이동 
 				mp.cp.card.show(mp.cp, "BDETAIL");
 			}

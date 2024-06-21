@@ -387,6 +387,24 @@ public class BoardDAO {
 		}
 		return bCheck;
 	} 
+	public String isMine(int no) {
+		String name = "";
+		try {
+			getConnection();
+			String sql = "SELECT id FROM board WHERE bno = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, no);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			name = rs.getString(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			disConnection();
+		}
+		return name;
+	}
 	/*
 	 * 	체크 => boolean => pwd, no
 	 * 	목록 => List => page
